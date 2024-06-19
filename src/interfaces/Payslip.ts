@@ -1,6 +1,6 @@
 interface Payslip {
   id: number;
-  fromDate: string;
-  toDate: string;
+  fromDate: Date;
+  toDate: Date;
   file: string;
 }

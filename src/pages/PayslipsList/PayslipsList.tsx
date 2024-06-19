@@ -15,24 +15,25 @@ import {
 } from '@ionic/react';
 import './PayslipsList.css';
 import { useEffect } from 'react';
+import { formatDate } from '../../utils/formatDate';
 
 const payslips: Payslip[] = [
   {
     id: 1,
-    fromDate: '2023-06-01',
-    toDate: '2023-06-30',
+    fromDate: new Date('2023-06-01'),
+    toDate: new Date('2023-06-30'),
     file: 'https://via.placeholder.com/100x200',
   },
   {
     id: 2,
-    fromDate: '2023-07-01',
-    toDate: '2023-07-30',
+    fromDate: new Date('2023-07-01'),
+    toDate: new Date('2023-07-30'),
     file: 'https://via.placeholder.com/100x200',
   },
   {
     id: 3,
-    fromDate: '2023-07-01',
-    toDate: '2023-07-30',
+    fromDate: new Date('2023-07-01'),
+    toDate: new Date('2023-07-30'),
     file: 'https://via.placeholder.com/100x200',
   },
 ];
@@ -68,8 +69,8 @@ const PayslipsList: React.FC = () => {
                     <IonCardTitle>Payslip {payslip.id}</IonCardTitle>
                   </IonCardHeader>
                   <IonCardContent>
-                    <p>From: {payslip.fromDate}</p>
-                    <p>To: {payslip.toDate}</p>
+                    <p>From: {formatDate(payslip.fromDate)}</p>
+                    <p>To: {formatDate(payslip.toDate)}</p>
                   </IonCardContent>{' '}
                 </IonCard>
               </IonCol>

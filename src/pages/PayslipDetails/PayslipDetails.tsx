@@ -17,6 +17,7 @@ import {
 import React from 'react';
 import { useParams } from 'react-router';
 import { calendar, documentText } from 'ionicons/icons';
+import { formatDate } from '../../utils/formatDate';
 
 const PayslipDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,8 +25,8 @@ const PayslipDetails: React.FC = () => {
   // Mock data
   const myPayslip: Payslip = {
     id: Number(id),
-    fromDate: '2023-06-01',
-    toDate: '2023-06-30',
+    fromDate: new Date('2023-06-01'),
+    toDate: new Date('2023-06-30'),
     file: 'https://via.placeholder.com/150x50',
   };
 
@@ -47,14 +48,14 @@ const PayslipDetails: React.FC = () => {
             <IonIcon icon={calendar} slot="start" />
             <IonLabel>
               <h2>From Date</h2>
-              <p>{myPayslip.fromDate}</p>
+              <p>{formatDate(myPayslip.fromDate)}</p>
             </IonLabel>
           </IonItem>
           <IonItem>
             <IonIcon icon={calendar} slot="start" />
             <IonLabel>
               <h2>To Date</h2>
-              <p>{myPayslip.toDate}</p>
+              <p>{formatDate(myPayslip.toDate)}</p>
             </IonLabel>
           </IonItem>
           <IonItem>
