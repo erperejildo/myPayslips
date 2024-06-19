@@ -12,7 +12,7 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import './Home.css';
+import './InvoicesList.css';
 
 const invoices: Invoice[] = [
   {
@@ -35,7 +35,7 @@ const invoices: Invoice[] = [
   },
 ];
 
-const Home: React.FC = () => {
+const InvoicesList: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -66,4 +66,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default InvoicesList;
