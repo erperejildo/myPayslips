@@ -1,4 +1,4 @@
-interface myPayslips {
+interface Payslip {
   id: number;
   fromDate: string;
   toDate: string;
