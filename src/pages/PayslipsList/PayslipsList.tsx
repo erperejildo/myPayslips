@@ -7,13 +7,12 @@ import {
   IonContent,
   IonGrid,
   IonHeader,
+  IonLoading,
   IonPage,
   IonRow,
   IonSkeletonText,
   IonTitle,
   IonToolbar,
-  useIonLoading,
-  useIonViewWillEnter,
 } from '@ionic/react';
 import './PayslipsList.css';
 import { formatDate } from '../../utils/formatDate';
@@ -24,20 +23,13 @@ import { useEffect } from 'react';
 
 const PayslipsList: React.FC = () => {
   const dispatch = useDispatch()<any>;
-  const [present, dismiss] = useIonLoading();
   const { payslips, loading } = useSelector(
     (state: RootState) => state.payslips
   );
 
-  useIonViewWillEnter(() => {
-    present('Getting payslips...');
-    dispatch(fetchPayslips());
-    dismiss();
-  });
-
   useEffect(() => {
-    if (!loading) dismiss();
-  }, [loading]);
+    dispatch(fetchPayslips());
+  }, [dispatch]);
 
   return (
     <IonPage>
@@ -47,6 +39,7 @@ const PayslipsList: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
+        <IonLoading isOpen={loading} message={'Getting payslips...'} />
         <IonGrid>
           <IonRow>
             {loading

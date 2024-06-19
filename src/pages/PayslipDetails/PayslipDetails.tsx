@@ -14,12 +14,13 @@ import {
   IonFooter,
   IonButton,
   useIonToast,
-  useIonLoading,
   IonGrid,
   IonRow,
   IonCol,
   CreateAnimation,
   useIonViewDidEnter,
+  useIonViewWillEnter,
+  IonLoading,
 } from '@ionic/react';
 import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router';
@@ -35,19 +36,21 @@ const PayslipDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [showToast] = useIonToast();
   const isNative = Capacitor.isNativePlatform();
-  const [present, dismiss] = useIonLoading();
   const animationRef = useRef<CreateAnimation | null>(null);
   const dispatch = useDispatch()<any>;
-
-  const myPayslip = useSelector((state: RootState) =>
-    state.payslips.payslips.find((payslip) => payslip.id === Number(id))
+  const myPayslip = useSelector(
+    (state: RootState) => state.payslips.activePayslip
   );
 
-  useEffect(() => {
-    if (!myPayslip) {
-      dispatch(fetchPayslipById(Number(id)));
-    }
-  }, [myPayslip, dispatch, id]);
+  // this is an example of how to get the payslip from the state but in this scenario,
+  // we want to get it from a different API.
+  // const myPayslip = useSelector((state: RootState) =>
+  //   state.payslips.payslips.find((payslip) => payslip.id === Number(id))
+  // );
+
+  useIonViewWillEnter(() => {
+    dispatch(fetchPayslipById(Number(id)));
+  });
 
   useIonViewDidEnter(() => {
     animationRef.current?.animation.play();
@@ -79,7 +82,6 @@ const PayslipDetails: React.FC = () => {
   const downloadNative = async () => {
     if (!myPayslip) return;
 
-    present('Downloading payslip...');
     try {
       const filename = `payslip_${myPayslip.id}.png`;
       const base64Data = await base64FromPath(myPayslip.file);
@@ -89,14 +91,12 @@ const PayslipDetails: React.FC = () => {
         directory: Directory.Documents,
       });
 
-      dismiss();
       showToast({
         message: 'Image downloaded. Check your gallery',
         duration: 2000,
         color: 'success',
       });
     } catch (error) {
-      dismiss();
       showToast({
         message: 'Something weird happened. Try later',
         duration: 2000,
@@ -116,24 +116,6 @@ const PayslipDetails: React.FC = () => {
     link.click();
   };
 
-  if (!myPayslip) {
-    return (
-      <IonPage>
-        <IonHeader>
-          <IonToolbar color={'primary'}>
-            <IonButtons slot="start">
-              <IonBackButton defaultHref="/" />
-            </IonButtons>
-            <IonTitle>Loading...</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className="ion-padding">
-          Loading payslip details...
-        </IonContent>
-      </IonPage>
-    );
-  }
-
   return (
     <IonPage>
       <IonHeader>
@@ -146,69 +128,75 @@ const PayslipDetails: React.FC = () => {
       </IonHeader>
 
       <IonContent className="ion-padding">
-        <IonGrid>
-          <IonRow class="ion-justify-content-center">
-            <IonCol size="12" sizeMd="6">
-              <IonImg src={myPayslip.file} alt={`Payslip ${myPayslip.id}`} />
-              <IonList>
-                <IonItem>
-                  <IonIcon icon={calendar} slot="start" />
-                  <IonLabel>
-                    <h2>From Date</h2>
-                    <p>{formatDate(myPayslip.fromDate)}</p>
-                  </IonLabel>
-                </IonItem>
-                <IonItem>
-                  <IonIcon icon={calendar} slot="start" />
-                  <IonLabel>
-                    <h2>To Date</h2>
-                    <p>{formatDate(myPayslip.toDate)}</p>
-                  </IonLabel>
-                </IonItem>
-                <IonItem>
-                  <IonIcon icon={documentText} slot="start" />
-                  <IonLabel>
-                    <h2>File</h2>
-                    <p>
-                      <a
-                        href={myPayslip.file}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        View Document
-                      </a>
-                    </p>
-                  </IonLabel>
-                </IonItem>
-              </IonList>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
+        {!myPayslip ? (
+          <IonLoading isOpen={true} message={'Loading payslip...'} />
+        ) : (
+          <IonGrid>
+            <IonRow class="ion-justify-content-center">
+              <IonCol size="12" sizeMd="6">
+                <IonImg src={myPayslip.file} alt={`Payslip ${myPayslip.id}`} />
+                <IonList>
+                  <IonItem>
+                    <IonIcon icon={calendar} slot="start" />
+                    <IonLabel>
+                      <h2>From Date</h2>
+                      <p>{formatDate(myPayslip.fromDate)}</p>
+                    </IonLabel>
+                  </IonItem>
+                  <IonItem>
+                    <IonIcon icon={calendar} slot="start" />
+                    <IonLabel>
+                      <h2>To Date</h2>
+                      <p>{formatDate(myPayslip.toDate)}</p>
+                    </IonLabel>
+                  </IonItem>
+                  <IonItem>
+                    <IonIcon icon={documentText} slot="start" />
+                    <IonLabel>
+                      <h2>File</h2>
+                      <p>
+                        <a
+                          href={myPayslip.file}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          View Document
+                        </a>
+                      </p>
+                    </IonLabel>
+                  </IonItem>
+                </IonList>
+              </IonCol>
+            </IonRow>
+          </IonGrid>
+        )}
       </IonContent>
 
-      <IonFooter>
-        <IonGrid>
-          <IonRow class="ion-justify-content-center">
-            <IonCol size="8" sizeMd="2">
-              <CreateAnimation
-                ref={animationRef}
-                duration={2000}
-                iterations={Infinity}
-                delay={1000}
-                keyframes={[
-                  { offset: 0, transform: 'scale(1)', opacity: '1' },
-                  { offset: 0.5, transform: 'scale(1.2)', opacity: '0.8' },
-                  { offset: 1, transform: 'scale(1)', opacity: '1' },
-                ]}
-              >
-                <IonButton expand="block" onClick={handleDownload}>
-                  DOWNLOAD <IonIcon slot="end" icon={downloadOutline} />
-                </IonButton>
-              </CreateAnimation>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-      </IonFooter>
+      {myPayslip && (
+        <IonFooter>
+          <IonGrid>
+            <IonRow class="ion-justify-content-center">
+              <IonCol size="8" sizeMd="2">
+                <CreateAnimation
+                  ref={animationRef}
+                  duration={2000}
+                  iterations={Infinity}
+                  delay={1000}
+                  keyframes={[
+                    { offset: 0, transform: 'scale(1)', opacity: '1' },
+                    { offset: 0.5, transform: 'scale(1.2)', opacity: '0.8' },
+                    { offset: 1, transform: 'scale(1)', opacity: '1' },
+                  ]}
+                >
+                  <IonButton expand="block" onClick={handleDownload}>
+                    DOWNLOAD <IonIcon slot="end" icon={downloadOutline} />
+                  </IonButton>
+                </CreateAnimation>
+              </IonCol>
+            </IonRow>
+          </IonGrid>
+        </IonFooter>
+      )}
     </IonPage>
   );
 };
