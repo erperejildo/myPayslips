@@ -11,8 +11,10 @@ import {
   IonRow,
   IonTitle,
   IonToolbar,
+  useIonLoading,
 } from '@ionic/react';
 import './PayslipsList.css';
+import { useEffect } from 'react';
 
 const payslips: Payslip[] = [
   {
@@ -36,6 +38,16 @@ const payslips: Payslip[] = [
 ];
 
 const PayslipsList: React.FC = () => {
+  const [present, dismiss] = useIonLoading();
+
+  // This page content is just a mock so I'm faking a fetch with a loading modal
+  useEffect(() => {
+    present('Getting payslips...');
+    setTimeout(() => {
+      dismiss();
+    }, 500);
+  }, []);
+
   return (
     <IonPage>
       <IonHeader>
