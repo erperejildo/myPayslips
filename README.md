@@ -46,6 +46,10 @@ It's mobile friendly and also supports light and dark themes:
 - Added extra components such as modals, refreshers, toasts, loaders, etc.
 - Inside details page, there is a camera button on the right to test this plugin
 - Icon and splash screen
+- CD using [Netlify](https://www.netlify.com):
+
+  ![image](https://github.com/erperejildo/myPayslips/assets/5629919/0f399eee-1a7b-42f6-a18f-d15de95c8bc7)
+
 
 ## Challenges found
 
