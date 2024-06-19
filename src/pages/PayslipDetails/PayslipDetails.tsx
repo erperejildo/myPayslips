@@ -18,8 +18,10 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  CreateAnimation,
+  useIonViewDidEnter,
 } from '@ionic/react';
-import React from 'react';
+import React, { useRef } from 'react';
 import { useParams } from 'react-router';
 import { calendar, documentText, downloadOutline } from 'ionicons/icons';
 import { formatDate } from '../../utils/formatDate';
@@ -31,6 +33,7 @@ const PayslipDetails: React.FC = () => {
   const [showToast] = useIonToast();
   const isNative = Capacitor.isNativePlatform();
   const [present, dismiss] = useIonLoading();
+  const animationRef = useRef<CreateAnimation | null>(null);
 
   // Mock data. In a real world, coming from API
   const myPayslip: Payslip = {
@@ -39,6 +42,10 @@ const PayslipDetails: React.FC = () => {
     toDate: new Date('2023-06-30'),
     file: 'https://via.placeholder.com/150x50',
   };
+
+  useIonViewDidEnter(() => {
+    animationRef.current?.animation.play();
+  });
 
   const handleDownload = () => {
     isNative ? downloadNative() : downloadWeb();
@@ -152,10 +159,22 @@ const PayslipDetails: React.FC = () => {
       <IonFooter>
         <IonGrid>
           <IonRow class="ion-justify-content-center">
-            <IonCol size="12" sizeMd="2">
-              <IonButton expand="block" onClick={handleDownload}>
-                DOWNLOAD <IonIcon slot="end" icon={downloadOutline} />
-              </IonButton>
+            <IonCol size="8" sizeMd="2">
+              <CreateAnimation
+                ref={animationRef}
+                duration={2000}
+                iterations={Infinity}
+                delay={1000}
+                keyframes={[
+                  { offset: 0, transform: 'scale(1)', opacity: '1' },
+                  { offset: 0.5, transform: 'scale(1.2)', opacity: '0.8' },
+                  { offset: 1, transform: 'scale(1)', opacity: '1' },
+                ]}
+              >
+                <IonButton expand="block" onClick={handleDownload}>
+                  DOWNLOAD <IonIcon slot="end" icon={downloadOutline} />
+                </IonButton>
+              </CreateAnimation>
             </IonCol>
           </IonRow>
         </IonGrid>
