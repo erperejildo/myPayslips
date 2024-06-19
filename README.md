@@ -14,13 +14,27 @@ npm install
 ionic cap run android --livereload --external
 ```
 
+## Info
+
+The app is working on native devices and web.
+NOTE: Despide I added all the permissions necessary for iOS, I'm using a Windows, so I couldn't properly test it.
+It's mobile friendly and also supports light and dark themes:
+// TODO: add images from github
+
 ## Bonus
 
 - Animations:
   - Hover payslip items
   - Download button
+- Native download button
 
-## Problems found
+## BonusX2
+
+- Added extra componets such as modals, refreshers, toasts, loaders, etc.
+- Inside details page, there is a camera button on the right to test this plugin
+- Icon and splashscreen
+
+## Challenges found
 
 - Not a big thing, but I thought Ionic would had something to display formatted dates (maybe not found). I just created an util, [formatDate.tsx](https://github.com/erperejildo/myPayslips/blob/main/src/utils/formatDate.tsx), which I initially called .jsx (typo) and lost few minutes looking why I couldn't import my method.
 - The native download propabably was the onlye annoying part. I innitially used [this package](https://www.npmjs.com/package/@capacitor-community/http) but I got the error: `NullPointerException`. So looking for some info I found a method called `downloadFile()` here:
