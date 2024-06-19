@@ -19,7 +19,7 @@ You can test it:
 
 - locally with `ionic cap run android --livereload --external`
 - [installing the apk](https://github.com/erperejildo/myPayslips/blob/main/app-debug.apk) (download not working on debug apk)
-- [ONLINE](https://main--mypayslips.netlify.app/payslips/9)
+- [ONLINE](https://main--mypayslips.netlify.app)
 
 ## Info
 
