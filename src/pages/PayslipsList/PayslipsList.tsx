@@ -17,16 +17,14 @@ import {
 } from '@ionic/react';
 import './PayslipsList.css';
 import { formatDate } from '../../utils/formatDate';
-import { fetchPayslips, setPayslips } from '../../store/payslipsSlice';
+import { fetchPayslips } from '../../store/payslipsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const PayslipsList: React.FC = () => {
   const dispatch = useDispatch()<any>;
-  // const payslips = useSelector((state: RootState) => state.payslips.payslips);
   const [present, dismiss] = useIonLoading();
-  // const [loading, setLoading] = useState<boolean>(true);
   const { payslips, loading } = useSelector(
     (state: RootState) => state.payslips
   );
@@ -72,6 +70,7 @@ const PayslipsList: React.FC = () => {
               : payslips.map((payslip) => (
                   <IonCol size="6" size-md="3" size-lg="2" key={payslip.id}>
                     <IonCard
+                      color={'light'}
                       className="payslip-card"
                       routerLink={`/payslips/${payslip.id}`}
                     >
