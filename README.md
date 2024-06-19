@@ -29,7 +29,7 @@ NOTE: Despide I added all the permissions necessary for iOS, I'm using a Windows
 It's mobile friendly and also supports light and dark themes:
 
 <img src="https://github.com/erperejildo/myPayslips/assets/5629919/feef1613-4535-48a6-aac6-ca4c26e9241a" width="200">
-<img src="https://github.com/erperejildo/myPayslips/assets/5629919/0b01e833-3e93-484c-afe1-4ae081f8a9cd" width="200">
+<img src="https://github.com/erperejildo/myPayslips/assets/5629919/207dba39-7dae-454e-9b6c-14ba00614226" width="200">
 <img src="https://github.com/erperejildo/myPayslips/assets/5629919/5867206f-621b-453a-9133-d12ad09b6151" width="200">
 <img src="https://github.com/erperejildo/myPayslips/assets/5629919/86e2264c-cca6-4ebe-8f50-ee39eb0d26f1" width="200">
 
