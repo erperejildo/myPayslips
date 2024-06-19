@@ -48,8 +48,7 @@ It's mobile friendly and also supports light and dark themes:
 - Icon and splash screen
 - CD using [Netlify](https://www.netlify.com):
 
-  ![image](https://github.com/erperejildo/myPayslips/assets/5629919/0f399eee-1a7b-42f6-a18f-d15de95c8bc7)
-
+  ![image](https://github.com/erperejildo/myPayslips/assets/5629919/72857c08-1ccf-4cb7-a974-48599158c8ba)
 
 ## Challenges found
 
