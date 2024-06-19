@@ -128,7 +128,7 @@ const PayslipDetails: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
-          <p>Loading payslip details...</p>
+          Loading payslip details...
         </IonContent>
       </IonPage>
     );
