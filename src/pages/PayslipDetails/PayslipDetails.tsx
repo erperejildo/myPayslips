@@ -16,18 +16,26 @@ import {
 } from '@ionic/react';
 import React from 'react';
 import { useParams } from 'react-router';
-import { calendar, documentText } from 'ionicons/icons';
+import { calendar, documentText, downloadOutline } from 'ionicons/icons';
 import { formatDate } from '../../utils/formatDate';
 
 const PayslipDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
-  // Mock data
+  // Mock data. In a real world, coming from API
   const myPayslip: Payslip = {
     id: Number(id),
     fromDate: new Date('2023-06-01'),
     toDate: new Date('2023-06-30'),
     file: 'https://via.placeholder.com/150x50',
+  };
+
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = myPayslip.file;
+    link.setAttribute('download', `payslip_${myPayslip.id}.png`);
+    document.body.appendChild(link);
+    link.click();
   };
 
   return (
@@ -77,7 +85,9 @@ const PayslipDetails: React.FC = () => {
       </IonContent>
 
       <IonFooter>
-        <IonButton expand="block">DOWNLOAD</IonButton>
+        <IonButton expand="block" onClick={handleDownload}>
+          DOWNLOAD <IonIcon slot="end" icon={downloadOutline} />
+        </IonButton>
       </IonFooter>
     </IonPage>
   );

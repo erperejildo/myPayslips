@@ -66,7 +66,7 @@ const PayslipsList: React.FC = () => {
                   routerLink={`/payslips/${payslip.id}`}
                 >
                   <IonCardHeader>
-                    <IonCardTitle>Payslip {payslip.id}</IonCardTitle>
+                    <IonCardTitle>{payslip.id}</IonCardTitle>
                   </IonCardHeader>
                   <IonCardContent>
                     <p>From: {formatDate(payslip.fromDate)}</p>
