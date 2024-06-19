@@ -15,37 +15,41 @@ import {
   useIonViewDidEnter,
 } from '@ionic/react';
 import './PayslipsList.css';
-import { useEffect } from 'react';
 import { formatDate } from '../../utils/formatDate';
-
-const payslips: Payslip[] = [
-  {
-    id: 1,
-    fromDate: new Date('2023-06-01'),
-    toDate: new Date('2023-06-30'),
-    file: 'https://via.placeholder.com/100x200',
-  },
-  {
-    id: 2,
-    fromDate: new Date('2023-07-01'),
-    toDate: new Date('2023-07-30'),
-    file: 'https://via.placeholder.com/100x200',
-  },
-  {
-    id: 3,
-    fromDate: new Date('2023-07-01'),
-    toDate: new Date('2023-07-30'),
-    file: 'https://via.placeholder.com/100x200',
-  },
-];
+import { setPayslips } from '../../store/payslipsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 const PayslipsList: React.FC = () => {
+  const dispatch = useDispatch();
+  const payslips = useSelector((state: RootState) => state.payslips.payslips);
   const [present, dismiss] = useIonLoading();
 
-  // This page content is just a mock so I'm faking a fetch with a loading modal
   useIonViewDidEnter(() => {
     present('Getting payslips...');
+    // This page content is just a mock so I'm faking a fetch with a loading modal
     setTimeout(() => {
+      const fetchedPayslips = [
+        {
+          id: 1,
+          fromDate: new Date('2023-06-01'),
+          toDate: new Date('2023-06-30'),
+          file: 'https://via.placeholder.com/100x200',
+        },
+        {
+          id: 2,
+          fromDate: new Date('2023-07-01'),
+          toDate: new Date('2023-07-30'),
+          file: 'https://via.placeholder.com/100x200',
+        },
+        {
+          id: 3,
+          fromDate: new Date('2024-01-01'),
+          toDate: new Date('2024-02-30'),
+          file: 'https://via.placeholder.com/100x200',
+        },
+      ];
+      dispatch(setPayslips(fetchedPayslips));
       dismiss();
     }, 500);
   });
