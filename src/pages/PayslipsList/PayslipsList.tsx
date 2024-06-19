@@ -17,47 +17,29 @@ import {
 } from '@ionic/react';
 import './PayslipsList.css';
 import { formatDate } from '../../utils/formatDate';
-import { setPayslips } from '../../store/payslipsSlice';
+import { fetchPayslips, setPayslips } from '../../store/payslipsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const PayslipsList: React.FC = () => {
-  const dispatch = useDispatch();
-  const payslips = useSelector((state: RootState) => state.payslips.payslips);
+  const dispatch = useDispatch()<any>;
+  // const payslips = useSelector((state: RootState) => state.payslips.payslips);
   const [present, dismiss] = useIonLoading();
-  const [loading, setLoading] = useState<boolean>(true);
+  // const [loading, setLoading] = useState<boolean>(true);
+  const { payslips, loading } = useSelector(
+    (state: RootState) => state.payslips
+  );
 
   useIonViewWillEnter(() => {
-    setLoading(true);
     present('Getting payslips...');
-    // This page content is just a mock so I'm faking a fetch with a loading modal
-    setTimeout(() => {
-      const fetchedPayslips = [
-        {
-          id: 1,
-          fromDate: new Date('2023-06-01'),
-          toDate: new Date('2023-06-30'),
-          file: 'https://via.placeholder.com/100x200',
-        },
-        {
-          id: 2,
-          fromDate: new Date('2023-07-01'),
-          toDate: new Date('2023-07-30'),
-          file: 'https://via.placeholder.com/100x200',
-        },
-        {
-          id: 3,
-          fromDate: new Date('2024-01-01'),
-          toDate: new Date('2024-02-30'),
-          file: 'https://via.placeholder.com/100x200',
-        },
-      ];
-      dispatch(setPayslips(fetchedPayslips));
-      dismiss();
-      setLoading(false);
-    }, 2000);
+    dispatch(fetchPayslips());
+    dismiss();
   });
+
+  useEffect(() => {
+    if (!loading) dismiss();
+  }, [loading]);
 
   return (
     <IonPage>

@@ -21,12 +21,15 @@ import {
   CreateAnimation,
   useIonViewDidEnter,
 } from '@ionic/react';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router';
 import { calendar, documentText, downloadOutline } from 'ionicons/icons';
 import { formatDate } from '../../utils/formatDate';
 import { Capacitor } from '@capacitor/core';
 import { Directory, Filesystem } from '@capacitor/filesystem';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { fetchPayslipById } from '../../store/payslipsSlice';
 
 const PayslipDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -34,20 +37,25 @@ const PayslipDetails: React.FC = () => {
   const isNative = Capacitor.isNativePlatform();
   const [present, dismiss] = useIonLoading();
   const animationRef = useRef<CreateAnimation | null>(null);
+  const dispatch = useDispatch()<any>;
 
-  // Mock data. In a real world, coming from API
-  const myPayslip: Payslip = {
-    id: Number(id),
-    fromDate: new Date('2023-06-01'),
-    toDate: new Date('2023-06-30'),
-    file: 'https://via.placeholder.com/150x50',
-  };
+  const myPayslip = useSelector((state: RootState) =>
+    state.payslips.payslips.find((payslip) => payslip.id === Number(id))
+  );
+
+  useEffect(() => {
+    if (!myPayslip) {
+      dispatch(fetchPayslipById(Number(id)));
+    }
+  }, [myPayslip, dispatch, id]);
 
   useIonViewDidEnter(() => {
     animationRef.current?.animation.play();
   });
 
   const handleDownload = () => {
+    if (!myPayslip) return;
+
     isNative ? downloadNative() : downloadWeb();
   };
 
@@ -69,6 +77,8 @@ const PayslipDetails: React.FC = () => {
   };
 
   const downloadNative = async () => {
+    if (!myPayslip) return;
+
     present('Downloading payslip...');
     try {
       const filename = `payslip_${myPayslip.id}.png`;
@@ -97,12 +107,32 @@ const PayslipDetails: React.FC = () => {
   };
 
   const downloadWeb = () => {
+    if (!myPayslip) return;
+
     const link = document.createElement('a');
     link.href = myPayslip.file;
     link.setAttribute('download', `payslip_${myPayslip.id}.png`);
     document.body.appendChild(link);
     link.click();
   };
+
+  if (!myPayslip) {
+    return (
+      <IonPage>
+        <IonHeader>
+          <IonToolbar color={'primary'}>
+            <IonButtons slot="start">
+              <IonBackButton defaultHref="/" />
+            </IonButtons>
+            <IonTitle>Loading...</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className="ion-padding">
+          <p>Loading payslip details...</p>
+        </IonContent>
+      </IonPage>
+    );
+  }
 
   return (
     <IonPage>
