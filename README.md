@@ -6,19 +6,18 @@ Small project using React, Capacitor, Ionic and Redux.
 
 React and Capacitor were mandatory. Since I could use any other framework, I think Ionic matches perfectly with Capacitor and Redux is not only the best state management for React but also the [recommended option by Ionic](https://ionic.io/enterprise-guide/state-management).
 
-## Run project
+## Set up
 
 ```bash
 npm i -g @ionic/cli
 npm install
-ionic cap run android --livereload --external
 ```
 
 ## Test
 
 You can test it:
 
-- locally with last command
+- locally with `ionic cap run android --livereload --external`
 - [installing the apk](https://github.com/erperejildo/myPayslips/blob/main/app-debug.apk) (download not working on debug apk)
 - [ONLINE](https://main--mypayslips.netlify.app/payslips/9)
 
