@@ -16,6 +16,10 @@ ionic cap run android --livereload --external
 
 ## Info
 
+You can test it locally with last command but also [installing the apk](https://github.com/erperejildo/myPayslips/blob/main/app-debug.apk) (download not working on debug apk) tand [ONLINE](https://main--mypayslips.netlify.app/payslips/9)
+
+## Info
+
 The app is working on native devices and web.
 NOTE: Despide I added all the permissions necessary for iOS, I'm using a Windows, so I couldn't properly test it.
 
