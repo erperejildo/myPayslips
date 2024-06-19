@@ -48,7 +48,10 @@ const PayslipsList: React.FC = () => {
           <IonRow>
             {payslips.map((payslip) => (
               <IonCol size="6" size-md="3" size-lg="2" key={payslip.id}>
-                <IonCard className="payslip-card">
+                <IonCard
+                  className="payslip-card"
+                  routerLink={`/payslips/${payslip.id}`}
+                >
                   <IonCardHeader>
                     <IonCardTitle>Payslip {payslip.id}</IonCardTitle>
                   </IonCardHeader>
