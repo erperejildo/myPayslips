@@ -8,6 +8,11 @@ const config: CapacitorConfig = {
     CapacitorHttp: {
       enabled: true,
     },
+    CapacitorFilesystem: {
+      android: {
+        saveToGallery: true,
+      },
+    },
   },
 };
 

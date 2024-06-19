@@ -21,8 +21,9 @@ import {
   useIonViewDidEnter,
   useIonViewWillEnter,
   IonLoading,
+  useIonLoading,
 } from '@ionic/react';
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useParams } from 'react-router';
 import { calendar, documentText, downloadOutline } from 'ionicons/icons';
 import { formatDate } from '../../utils/formatDate';
@@ -38,6 +39,7 @@ const PayslipDetails: React.FC = () => {
   const [showToast] = useIonToast();
   const isNative = Capacitor.isNativePlatform();
   const animationRef = useRef<CreateAnimation | null>(null);
+  const [present, dismiss] = useIonLoading();
   const dispatch = useDispatch()<any>;
   const myPayslip = useSelector(
     (state: RootState) => state.payslips.activePayslip
@@ -59,45 +61,29 @@ const PayslipDetails: React.FC = () => {
 
   const handleDownload = () => {
     if (!myPayslip) return;
-
     isNative ? downloadNative() : downloadWeb();
-  };
-
-  const base64FromPath = async (path: string): Promise<Blob | string> => {
-    const response = await fetch(path);
-    const blob = await response.blob();
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onerror = reject;
-      reader.onload = () => {
-        if (typeof reader.result === 'string') {
-          resolve(reader.result);
-        } else {
-          reject('method did not return a string');
-        }
-      };
-      reader.readAsDataURL(blob);
-    });
   };
 
   const downloadNative = async () => {
     if (!myPayslip) return;
 
+    present('Downloading payslip...');
+
     try {
-      const filename = `payslip_${myPayslip.id}.png`;
-      const base64Data = await base64FromPath(myPayslip.file);
-      await Filesystem.writeFile({
-        path: filename,
-        data: base64Data,
+      await Filesystem.downloadFile({
+        url: myPayslip.file,
         directory: Directory.Documents,
+        path: `payslip_${myPayslip.id}.png`,
       });
 
+      dismiss();
       showToast({
         message: 'Image downloaded. Check your gallery',
         duration: 2000,
         color: 'success',
       });
     } catch (error) {
+      dismiss();
       showToast({
         message: 'Something weird happened. Try later',
         duration: 2000,
@@ -180,7 +166,7 @@ const PayslipDetails: React.FC = () => {
         <IonFooter>
           <IonGrid>
             <IonRow class="ion-justify-content-center">
-              <IonCol size="8" sizeMd="2">
+              <IonCol size="8" sizeMd="3">
                 <CreateAnimation
                   ref={animationRef}
                   duration={2000}
