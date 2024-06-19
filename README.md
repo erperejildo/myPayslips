@@ -14,7 +14,7 @@ npm install
 ionic cap run android --livereload --external
 ```
 
-## Info
+## Test
 
 You can test it locally with last command but also [installing the apk](https://github.com/erperejildo/myPayslips/blob/main/app-debug.apk) (download not working on debug apk) tand [ONLINE](https://main--mypayslips.netlify.app/payslips/9)
 
