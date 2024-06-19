@@ -38,8 +38,8 @@ It's mobile friendly and also supports light and dark themes:
 - Animations:
   - Hover payslip items
   - Download button
+  - Routes (handled by Ionic)
 - Native download button
-- Routes (handled by Ionic)
 
 ## BonusX2
 
