@@ -15,6 +15,9 @@ import {
   IonButton,
   useIonToast,
   useIonLoading,
+  IonGrid,
+  IonRow,
+  IonCol,
 } from '@ionic/react';
 import React from 'react';
 import { useParams } from 'react-router';
@@ -106,44 +109,56 @@ const PayslipDetails: React.FC = () => {
       </IonHeader>
 
       <IonContent className="ion-padding">
-        <IonImg src={myPayslip.file} alt={`Payslip ${myPayslip.id}`} />
-        <IonList>
-          <IonItem>
-            <IonIcon icon={calendar} slot="start" />
-            <IonLabel>
-              <h2>From Date</h2>
-              <p>{formatDate(myPayslip.fromDate)}</p>
-            </IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonIcon icon={calendar} slot="start" />
-            <IonLabel>
-              <h2>To Date</h2>
-              <p>{formatDate(myPayslip.toDate)}</p>
-            </IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonIcon icon={documentText} slot="start" />
-            <IonLabel>
-              <h2>File</h2>
-              <p>
-                <a
-                  href={myPayslip.file}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View Document
-                </a>
-              </p>
-            </IonLabel>
-          </IonItem>
-        </IonList>
+        <IonGrid>
+          <IonRow class="ion-justify-content-center">
+            <IonCol size="12" sizeMd="6">
+              <IonImg src={myPayslip.file} alt={`Payslip ${myPayslip.id}`} />
+              <IonList>
+                <IonItem>
+                  <IonIcon icon={calendar} slot="start" />
+                  <IonLabel>
+                    <h2>From Date</h2>
+                    <p>{formatDate(myPayslip.fromDate)}</p>
+                  </IonLabel>
+                </IonItem>
+                <IonItem>
+                  <IonIcon icon={calendar} slot="start" />
+                  <IonLabel>
+                    <h2>To Date</h2>
+                    <p>{formatDate(myPayslip.toDate)}</p>
+                  </IonLabel>
+                </IonItem>
+                <IonItem>
+                  <IonIcon icon={documentText} slot="start" />
+                  <IonLabel>
+                    <h2>File</h2>
+                    <p>
+                      <a
+                        href={myPayslip.file}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View Document
+                      </a>
+                    </p>
+                  </IonLabel>
+                </IonItem>
+              </IonList>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
 
       <IonFooter>
-        <IonButton expand="block" onClick={handleDownload}>
-          DOWNLOAD <IonIcon slot="end" icon={downloadOutline} />
-        </IonButton>
+        <IonGrid>
+          <IonRow class="ion-justify-content-center">
+            <IonCol size="12" sizeMd="2">
+              <IonButton expand="block" onClick={handleDownload}>
+                DOWNLOAD <IonIcon slot="end" icon={downloadOutline} />
+              </IonButton>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonFooter>
     </IonPage>
   );
