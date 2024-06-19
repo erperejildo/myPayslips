@@ -9,6 +9,8 @@ import {
   IonHeader,
   IonLoading,
   IonPage,
+  IonRefresher,
+  IonRefresherContent,
   IonRow,
   IonSkeletonText,
   IonTitle,
@@ -31,6 +33,11 @@ const PayslipsList: React.FC = () => {
     dispatch(fetchPayslips());
   }, [dispatch]);
 
+  const doRefresh = async (event: any) => {
+    dispatch(fetchPayslips());
+    event.detail.complete();
+  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -39,6 +46,10 @@ const PayslipsList: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
+        <IonRefresher slot="fixed" onIonRefresh={(ev) => doRefresh(ev)}>
+          <IonRefresherContent />
+        </IonRefresher>
+
         <IonLoading isOpen={loading} message={'Getting payslips...'} />
         <IonGrid>
           <IonRow>
