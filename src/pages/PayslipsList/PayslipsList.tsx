@@ -12,9 +12,9 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import './InvoicesList.css';
+import './PayslipsList.css';
 
-const invoices: Invoice[] = [
+const payslips: Payslip[] = [
   {
     id: 1,
     fromDate: '2023-06-01',
@@ -35,26 +35,26 @@ const invoices: Invoice[] = [
   },
 ];
 
-const InvoicesList: React.FC = () => {
+const PayslipsList: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>My Invoices</IonTitle>
+          <IonTitle>My Payslips</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonGrid>
           <IonRow>
-            {invoices.map((invoice) => (
-              <IonCol size="6" size-md="3" size-lg="2" key={invoice.id}>
+            {payslips.map((payslip) => (
+              <IonCol size="6" size-md="3" size-lg="2" key={payslip.id}>
                 <IonCard className="custom-card">
                   <IonCardHeader>
-                    <IonCardTitle>Invoice {invoice.id}</IonCardTitle>
+                    <IonCardTitle>Payslip {payslip.id}</IonCardTitle>
                   </IonCardHeader>
                   <IonCardContent>
-                    <p>From: {invoice.fromDate}</p>
-                    <p>To: {invoice.toDate}</p>
+                    <p>From: {payslip.fromDate}</p>
+                    <p>To: {payslip.toDate}</p>
                   </IonCardContent>{' '}
                 </IonCard>
               </IonCol>
@@ -66,4 +66,4 @@ const InvoicesList: React.FC = () => {
   );
 };
 
-export default InvoicesList;
+export default PayslipsList;

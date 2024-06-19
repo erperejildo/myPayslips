@@ -1,4 +1,4 @@
-interface Invoice {
+interface myPayslips {
   id: number;
   fromDate: string;
   toDate: string;
