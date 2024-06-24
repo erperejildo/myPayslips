@@ -18,10 +18,10 @@ import {
 } from '@ionic/react';
 import './PayslipsList.css';
 import { formatDate } from '../../utils/formatDate';
-import { fetchPayslips } from '../../store/payslipsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { useEffect } from 'react';
+import { fetchPayslips } from '../../features/payslipsActions';
 
 const PayslipsList: React.FC = () => {
   const dispatch = useDispatch()<any>;

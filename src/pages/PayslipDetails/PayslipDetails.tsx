@@ -31,8 +31,8 @@ import { Capacitor } from '@capacitor/core';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import { fetchPayslipById } from '../../store/payslipsSlice';
 import CameraComponent from '../../components/Camera';
+import { fetchPayslipById } from '../../features/payslipsActions';
 
 const PayslipDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();

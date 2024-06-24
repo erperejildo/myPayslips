@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import payslipsReducer from './payslipsSlice';
+import payslipsSlice from './features/payslipsSlices';
 
 const store = configureStore({
   reducer: {
-    payslips: payslipsReducer,
+    payslips: payslipsSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -1,6 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchedPayslips } from '../mocks/payslips';
-import { fetchedPayslip } from '../mocks/payslip';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { fetchPayslipById, fetchPayslips } from './payslipsActions';
 
 interface PayslipsState {
   payslips: Payslip[];
@@ -15,36 +14,6 @@ const initialState: PayslipsState = {
   loading: false,
   error: null,
 };
-
-// Here, I'm faking some fetchs with some delay
-const mockFetchPayslips = (): Promise<Payslip[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(fetchedPayslips);
-    }, 1000);
-  });
-};
-
-const mockFetchPayslipById = (id: number): Promise<Payslip> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(fetchedPayslip);
-    }, 500);
-  });
-};
-
-export const fetchPayslips = createAsyncThunk('payslips/fetchAll', async () => {
-  const response = await mockFetchPayslips();
-  return response;
-});
-
-export const fetchPayslipById = createAsyncThunk(
-  'payslips/fetchById',
-  async (id: number) => {
-    const response = await mockFetchPayslipById(id);
-    return response;
-  }
-);
 
 const payslipsSlice = createSlice({
   name: 'payslips',
@@ -65,11 +34,6 @@ const payslipsSlice = createSlice({
       .addCase(
         fetchPayslipById.fulfilled,
         (state, action: PayloadAction<Payslip>) => {
-          // following the example in PayslipsDetails.tsx, this is another approach
-          // if we want to get the payslip from the loaded list already
-          // state.payslips = state.payslips.map((payslip) =>
-          //   payslip.id === action.payload.id ? action.payload : payslip
-          // );
           state.activePayslip = action.payload;
         }
       )
