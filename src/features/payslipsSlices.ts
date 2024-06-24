@@ -29,15 +29,18 @@ const payslipsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPayslipById.pending, (state) => {
+        state.activePayslip.loading = true;
         state.activePayslip.error = null;
       })
       .addCase(
         fetchPayslipById.fulfilled,
         (state, action: PayloadAction<Payslip>) => {
+          state.activePayslip.loading = false;
           state.activePayslip.payslip = action.payload;
         }
       )
       .addCase(fetchPayslipById.rejected, (state, action) => {
+        state.activePayslip.loading = false;
         state.activePayslip.error = action.error.message!;
       })
       .addCase(fetchPayslips.pending, (state) => {

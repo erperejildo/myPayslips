@@ -41,8 +41,16 @@ const PayslipDetails: React.FC = () => {
   const animationRef = useRef<CreateAnimation | null>(null);
   const [present, dismiss] = useIonLoading();
   const dispatch = useDispatch()<any>;
-  const { activePayslip } = useSelector(
-    (state: RootState) => state.payslipsStore
+  const { payslip, error, loading } = useSelector(
+    (state: RootState) => ({
+      payslip: state.payslipsStore.activePayslip.payslip,
+      error: state.payslipsStore.activePayslip.error,
+      loading: state.payslipsStore.activePayslip.loading,
+    }),
+    (prev, next) =>
+      prev.payslip === next.payslip &&
+      prev.error === next.error &&
+      prev.loading === next.loading
   );
 
   // this is an example of how to get the payslip from the state but in this scenario,
@@ -60,30 +68,28 @@ const PayslipDetails: React.FC = () => {
   });
 
   useEffect(() => {
-    if (!activePayslip.error) return;
+    if (!error) return;
 
     showToast({
-      message: activePayslip.error,
+      message: error,
       duration: 2000,
       color: 'danger',
     });
-  }, [activePayslip.error]);
+  }, [error]);
 
   const handleDownload = () => {
-    if (!activePayslip) return;
+    if (!payslip) return;
     isNative ? downloadNative() : downloadWeb();
   };
 
   const downloadNative = async () => {
-    if (!activePayslip.payslip) return;
-
-    present('Downloading payslip...');
+    if (!payslip) return;
 
     try {
       await Filesystem.downloadFile({
-        url: activePayslip.payslip.file,
+        url: payslip.file,
         directory: Directory.Documents,
-        path: `payslip_${activePayslip.payslip.id}.png`,
+        path: `payslip_${payslip.id}.png`,
       });
 
       dismiss();
@@ -104,11 +110,11 @@ const PayslipDetails: React.FC = () => {
   };
 
   const downloadWeb = () => {
-    if (!activePayslip.payslip) return;
+    if (!payslip) return;
 
     const link = document.createElement('a');
-    link.href = activePayslip.payslip.file;
-    link.setAttribute('download', `payslip_${activePayslip.payslip.id}.png`);
+    link.href = payslip.file;
+    link.setAttribute('download', `payslip_${payslip.id}.png`);
     document.body.appendChild(link);
     link.click();
   };
@@ -128,35 +134,32 @@ const PayslipDetails: React.FC = () => {
       </IonHeader>
 
       <IonContent className="ion-padding">
-        {activePayslip.error && (
+        {error && (
           <div className="ion-padding ion-text-center error-message">
             We couldn't fetch your payslip. Please, try later
           </div>
         )}
-        {activePayslip.loading ? (
+        {loading ? (
           <IonLoading isOpen={true} message={'Loading payslip...'} />
         ) : (
-          activePayslip.payslip && (
+          payslip && (
             <IonGrid>
               <IonRow class="ion-justify-content-center">
                 <IonCol size="12" sizeMd="6">
-                  <IonImg
-                    src={activePayslip.payslip.file}
-                    alt={`Payslip ${activePayslip.payslip.id}`}
-                  />
+                  <IonImg src={payslip.file} alt={`Payslip ${payslip.id}`} />
                   <IonList>
                     <IonItem>
                       <IonIcon icon={calendar} slot="start" />
                       <IonLabel>
                         <h2>From Date</h2>
-                        <p>{formatDate(activePayslip.payslip.fromDate)}</p>
+                        <p>{formatDate(payslip.fromDate)}</p>
                       </IonLabel>
                     </IonItem>
                     <IonItem>
                       <IonIcon icon={calendar} slot="start" />
                       <IonLabel>
                         <h2>To Date</h2>
-                        <p>{formatDate(activePayslip.payslip.toDate)}</p>
+                        <p>{formatDate(payslip.toDate)}</p>
                       </IonLabel>
                     </IonItem>
                     <IonItem>
@@ -165,7 +168,7 @@ const PayslipDetails: React.FC = () => {
                         <h2>File</h2>
                         <p>
                           <a
-                            href={activePayslip.payslip.file}
+                            href={payslip.file}
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -182,7 +185,7 @@ const PayslipDetails: React.FC = () => {
         )}
       </IonContent>
 
-      {activePayslip.payslip && (
+      {payslip && (
         <IonFooter>
           <IonGrid>
             <IonRow class="ion-justify-content-center">

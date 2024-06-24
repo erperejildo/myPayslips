@@ -27,21 +27,31 @@ import { fetchPayslips } from '../../features/payslipsActions';
 const PayslipsList: React.FC = () => {
   const dispatch = useDispatch()<any>;
   const [showToast] = useIonToast();
-  const { payslips } = useSelector((state: RootState) => state.payslipsStore);
+  const { payslips, error, loading } = useSelector(
+    (state: RootState) => ({
+      payslips: state.payslipsStore.payslips.list,
+      error: state.payslipsStore.payslips.error,
+      loading: state.payslipsStore.payslips.loading,
+    }),
+    (prev, next) =>
+      prev.payslips === next.payslips &&
+      prev.error === next.error &&
+      prev.loading === next.loading
+  );
 
   useEffect(() => {
     dispatch(fetchPayslips());
   }, [dispatch]);
 
   useEffect(() => {
-    if (!payslips.error) return;
+    if (!error) return;
 
     showToast({
-      message: payslips.error,
+      message: error,
       duration: 2000,
       color: 'danger',
     });
-  }, [payslips.error]);
+  }, [error]);
 
   const doRefresh = async (event: any) => {
     dispatch(fetchPayslips());
@@ -60,16 +70,16 @@ const PayslipsList: React.FC = () => {
           <IonRefresherContent />
         </IonRefresher>
 
-        {payslips.error && (
+        {error && (
           <div className="ion-padding ion-text-center error-message">
             We couldn't fetch your payslips. Please, try later
           </div>
         )}
 
-        <IonLoading isOpen={payslips.loading} message={'Getting payslips...'} />
+        <IonLoading isOpen={loading} message={'Getting payslips...'} />
         <IonGrid>
           <IonRow>
-            {payslips.loading
+            {loading
               ? [...Array(10)].map((_, index) => (
                   <IonCol size="6" size-md="3" size-lg="2" key={index}>
                     <IonCard className="payslip-card">
@@ -87,7 +97,7 @@ const PayslipsList: React.FC = () => {
                     </IonCard>
                   </IonCol>
                 ))
-              : payslips.list.map((payslip) => (
+              : payslips.map((payslip) => (
                   <IonCol size="6" size-md="3" size-lg="2" key={payslip.id}>
                     <IonCard
                       color={'light'}
