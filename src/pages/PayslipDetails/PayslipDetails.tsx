@@ -22,8 +22,9 @@ import {
   useIonViewWillEnter,
   IonLoading,
   useIonLoading,
+  IonSkeletonText,
 } from '@ionic/react';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import { calendar, documentText, downloadOutline } from 'ionicons/icons';
 import { formatDate } from '../../utils/formatDate';
@@ -33,14 +34,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import CameraComponent from '../../components/Camera';
 import { fetchPayslipById } from '../../features/payslipsActions';
+import './PayslipDetails.css';
 
 const PayslipDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [showToast] = useIonToast();
   const isNative = Capacitor.isNativePlatform();
   const animationRef = useRef<CreateAnimation | null>(null);
-  const [present, dismiss] = useIonLoading();
+  const [dismiss] = useIonLoading();
   const dispatch = useDispatch()<any>;
+  const [imageLoaded, setImageLoaded] = useState(false);
   const { payslip, error, loading } = useSelector(
     (state: RootState) => ({
       payslip: state.payslipsStore.activePayslip.payslip,
@@ -105,7 +108,6 @@ const PayslipDetails: React.FC = () => {
         duration: 2000,
         color: 'danger',
       });
-      console.error(error);
     }
   };
 
@@ -146,7 +148,14 @@ const PayslipDetails: React.FC = () => {
             <IonGrid>
               <IonRow class="ion-justify-content-center">
                 <IonCol size="12" sizeMd="6">
-                  <IonImg src={payslip.file} alt={`Payslip ${payslip.id}`} />
+                  <IonImg
+                    src={payslip.file}
+                    onIonImgDidLoad={() => setImageLoaded(true)}
+                  />
+                  {!imageLoaded && (
+                    <IonSkeletonText animated className="loading-image" />
+                  )}
+
                   <IonList>
                     <IonItem>
                       <IonIcon icon={calendar} slot="start" />
