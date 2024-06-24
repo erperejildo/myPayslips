@@ -2,17 +2,17 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchPayslipById, fetchPayslips } from './payslipsActions';
 
 interface PayslipsState {
-  payslips: Payslip[];
-  activePayslip: Payslip | null;
-  loading: boolean;
-  error: string | null;
+  payslips: { list: Payslip[]; loading: boolean; error: string | null };
+  activePayslip: {
+    payslip: Payslip | null;
+    loading: boolean;
+    error: string | null;
+  };
 }
 
 const initialState: PayslipsState = {
-  payslips: [],
-  activePayslip: null,
-  loading: false,
-  error: null,
+  payslips: { list: [], loading: false, error: null },
+  activePayslip: { payslip: null, loading: false, error: null },
 };
 
 const payslipsSlice = createSlice({
@@ -20,40 +20,40 @@ const payslipsSlice = createSlice({
   initialState,
   reducers: {
     setPayslips(state, action: PayloadAction<Payslip[]>) {
-      state.payslips = action.payload;
+      state.payslips.list = action.payload;
     },
     setActivePayslip(state, action: PayloadAction<Payslip>) {
-      state.activePayslip = action.payload;
+      state.activePayslip.payslip = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPayslipById.pending, (state) => {
-        state.error = null;
+        state.activePayslip.error = null;
       })
       .addCase(
         fetchPayslipById.fulfilled,
         (state, action: PayloadAction<Payslip>) => {
-          state.activePayslip = action.payload;
+          state.activePayslip.payslip = action.payload;
         }
       )
       .addCase(fetchPayslipById.rejected, (state, action) => {
-        state.error = action.error.message || 'Failed to fetch payslip';
+        state.activePayslip.error = action.error.message!;
       })
       .addCase(fetchPayslips.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.payslips.loading = true;
+        state.payslips.error = null;
       })
       .addCase(
         fetchPayslips.fulfilled,
         (state, action: PayloadAction<Payslip[]>) => {
-          state.loading = false;
-          state.payslips = action.payload;
+          state.payslips.loading = false;
+          state.payslips.list = action.payload;
         }
       )
       .addCase(fetchPayslips.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Failed to fetch payslips';
+        state.payslips.loading = false;
+        state.payslips.error = action.error.message!;
       });
   },
 });

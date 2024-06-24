@@ -61,3 +61,4 @@ It's mobile friendly and also supports light and dark themes:
 ## Changes to this repo
 
 - Better Redux structure ([more info](https://redux.js.org/style-guide/#structure-files-as-feature-folders-with-single-file-logic)
+- Added loading/error to individual payslips and improved error handling when loading pages

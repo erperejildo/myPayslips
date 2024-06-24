@@ -15,6 +15,7 @@ import {
   IonSkeletonText,
   IonTitle,
   IonToolbar,
+  useIonToast,
 } from '@ionic/react';
 import './PayslipsList.css';
 import { formatDate } from '../../utils/formatDate';
@@ -25,13 +26,22 @@ import { fetchPayslips } from '../../features/payslipsActions';
 
 const PayslipsList: React.FC = () => {
   const dispatch = useDispatch()<any>;
-  const { payslips, loading } = useSelector(
-    (state: RootState) => state.payslips
-  );
+  const [showToast] = useIonToast();
+  const { payslips } = useSelector((state: RootState) => state.payslipsStore);
 
   useEffect(() => {
     dispatch(fetchPayslips());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!payslips.error) return;
+
+    showToast({
+      message: payslips.error,
+      duration: 2000,
+      color: 'danger',
+    });
+  }, [payslips.error]);
 
   const doRefresh = async (event: any) => {
     dispatch(fetchPayslips());
@@ -50,10 +60,16 @@ const PayslipsList: React.FC = () => {
           <IonRefresherContent />
         </IonRefresher>
 
-        <IonLoading isOpen={loading} message={'Getting payslips...'} />
+        {payslips.error && (
+          <div className="ion-padding ion-text-center error-message">
+            We couldn't fetch your payslips. Please, try later
+          </div>
+        )}
+
+        <IonLoading isOpen={payslips.loading} message={'Getting payslips...'} />
         <IonGrid>
           <IonRow>
-            {loading
+            {payslips.loading
               ? [...Array(10)].map((_, index) => (
                   <IonCol size="6" size-md="3" size-lg="2" key={index}>
                     <IonCard className="payslip-card">
@@ -71,7 +87,7 @@ const PayslipsList: React.FC = () => {
                     </IonCard>
                   </IonCol>
                 ))
-              : payslips.map((payslip) => (
+              : payslips.list.map((payslip) => (
                   <IonCol size="6" size-md="3" size-lg="2" key={payslip.id}>
                     <IonCard
                       color={'light'}

@@ -3,17 +3,29 @@ import { fetchedPayslips } from '../mocks/payslips';
 import { fetchedPayslip } from '../mocks/payslip';
 
 const mockFetchPayslips = (): Promise<Payslip[]> => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(fetchedPayslips);
+      try {
+        // uncomment next line to force an error
+        // throw new Error('Failed to fetch payslips');
+        resolve(fetchedPayslips);
+      } catch (error) {
+        reject(error);
+      }
     }, 1000);
   });
 };
 
 const mockFetchPayslipById = (id: number): Promise<Payslip> => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(fetchedPayslip);
+      try {
+        // uncomment next line to force an error
+        // throw new Error('Failed to fetch payslip');
+        resolve(fetchedPayslip);
+      } catch (error) {
+        reject(error);
+      }
     }, 500);
   });
 };

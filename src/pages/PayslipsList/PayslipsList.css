@@ -8,3 +8,7 @@
   cursor: pointer;
   transform: scale(1.05);
 }
+
+.error-message {
+  color: #8c8c8c;
+}

@@ -3,7 +3,7 @@ import payslipsSlice from './features/payslipsSlices';
 
 const store = configureStore({
   reducer: {
-    payslips: payslipsSlice,
+    payslipsStore: payslipsSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
