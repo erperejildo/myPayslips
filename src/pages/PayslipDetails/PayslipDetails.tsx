@@ -26,7 +26,12 @@ import {
 } from '@ionic/react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
-import { calendar, documentText, downloadOutline } from 'ionicons/icons';
+import {
+  calendar,
+  documentText,
+  downloadOutline,
+  informationCircle,
+} from 'ionicons/icons';
 import { formatDate } from '../../utils/formatDate';
 import { Capacitor } from '@capacitor/core';
 import { Directory, Filesystem } from '@capacitor/filesystem';
@@ -184,6 +189,13 @@ const PayslipDetails: React.FC = () => {
                             View Document
                           </a>
                         </p>
+                      </IonLabel>
+                    </IonItem>{' '}
+                    <IonItem>
+                      <IonIcon icon={informationCircle} slot="start" />
+                      <IonLabel>
+                        <h2>Note</h2>
+                        <p>Remember that I'm mocked data, so I won't change</p>
                       </IonLabel>
                     </IonItem>
                   </IonList>
