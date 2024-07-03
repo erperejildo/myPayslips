@@ -44,4 +44,4 @@ It's mobile friendly and also supports light and dark themes:
 - Added loading/error to individual payslips and improved error handling when loading pages (search for `uncomment next line`)
 - CD using [Netlify](https://www.netlify.com):
 
-  ![image](https://github.com/erperejildo/myPayslips/assets/5629919/72857c08-1ccf-4cb7-a974-48599158c8ba)
+![image](https://github.com/erperejildo/myPayslips/assets/5629919/38c6f531-6ade-499e-adde-64509892a214)
