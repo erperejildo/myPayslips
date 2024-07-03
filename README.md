@@ -26,11 +26,9 @@ NOTE: Despide I added all the permissions necessary for iOS, I'm using Windows, 
 It's mobile friendly and also supports light and dark themes:
 
 <img src="https://github.com/erperejildo/myPayslips/assets/5629919/9257dab7-47a0-41cf-90b8-f8d8b721e75a" width="600">
-
 <img src="https://github.com/erperejildo/myPayslips/assets/5629919/a568338a-1e1e-4939-ab8c-7be3739341f4" width="600">
 
 <img src="https://github.com/erperejildo/myPayslips/assets/5629919/9719fbd3-cf9d-4cb4-9398-051f01749767" width="200">
-
 <img src="https://github.com/erperejildo/myPayslips/assets/5629919/f5c0caa3-d9c1-4676-b50a-785a54a8475f" width="200">
 
 ## Features
