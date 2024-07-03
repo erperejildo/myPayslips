@@ -1,6 +1,6 @@
 # myPayslips
 
-Small project using React, Capacitor, Ionic and Redux.
+Small project using React, Redux, Ionic, Capacitor, Vite and much more.
 
 ## Set up
 
@@ -25,10 +25,10 @@ NOTE: Despide I added all the permissions necessary for iOS, I'm using Windows, 
 
 It's mobile friendly and also supports light and dark themes:
 
-<img src="https://github.com/erperejildo/myPayslips/assets/5629919/feef1613-4535-48a6-aac6-ca4c26e9241a" width="200">
-<img src="https://github.com/erperejildo/myPayslips/assets/5629919/207dba39-7dae-454e-9b6c-14ba00614226" width="200">
-<img src="https://github.com/erperejildo/myPayslips/assets/5629919/5867206f-621b-453a-9133-d12ad09b6151" width="200">
-<img src="https://github.com/erperejildo/myPayslips/assets/5629919/86e2264c-cca6-4ebe-8f50-ee39eb0d26f1" width="200">
+<img src="https://github.com/erperejildo/myPayslips/assets/5629919/9257dab7-47a0-41cf-90b8-f8d8b721e75a" width="600">
+<img src="https://github.com/erperejildo/myPayslips/assets/5629919/a568338a-1e1e-4939-ab8c-7be3739341f4" width="600">
+<img src="https://github.com/erperejildo/myPayslips/assets/5629919/9719fbd3-cf9d-4cb4-9398-051f01749767" width="200">
+<img src="https://github.com/erperejildo/myPayslips/assets/5629919/f5c0caa3-d9c1-4676-b50a-785a54a8475f" width="200">
 
 ## Features
 
