@@ -15,7 +15,7 @@ const initialState: PayslipsState = {
   activePayslip: { payslip: null, loading: false, error: null },
 };
 
-const payslipsSlice = createSlice({
+export const payslipsSlice = createSlice({
   name: 'payslips',
   initialState,
   reducers: {
